@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Birthday Wish</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+text-align:center;
+background:linear-gradient(120deg,#ff9a9e,#fad0c4);
+overflow:hidden;
+}
+
+/* pages */
+.page{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+color:black;
+}
+
+#page2{
+display:none;
+}
+
+#message{
+display:none;
+animation:fade 2s ease-in-out;
+}
+
+@keyframes fade{
+from{opacity:0; transform:scale(0.8);}
+to{opacity:1; transform:scale(1);}
+}
+
+/* button */
+button{
+padding:12px 25px;
+font-size:18px;
+border:none;
+border-radius:8px;
+background:#ff4081;
+color:white;
+cursor:pointer;
+}
+
+/* gift box */
+.gift{
+font-size:80px;
+cursor:pointer;
+transition:transform 0.3s;
+}
+
+.gift:hover{
+transform:scale(1.2);
+}
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+pointer-events:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<canvas id="confetti"></canvas>
+
+<!-- Page 1 -->
+<div id="page1" class="page">
+<h1>Hello Mam 👋</h1>
+<p>I have a small surprise for you</p>
+<button onclick="nextPage()">Click Here</button>
+</div>
+
+<!-- Page 2 -->
+<div id="page2" class="page">
+
+<h2 id="giftText">Click the Gift 🎁</h2>
+
+<div id="gift" class="gift" onclick="openGift()">🎁</div>
+
+<div id="message">
+<h1>🎂 Happy Birthday Mam 🎂</h1>
+<p>
+Wishing you a wonderful birthday filled with happiness and success.<br>
+Thank you for your guidance and support.
+</p>
+</div>
+
+</div>
+
+<script>
+
+function nextPage(){
+document.getElementById("page1").style.display="none";
+document.getElementById("page2").style.display="flex";
+}
+
+function openGift(){
+document.getElementById("gift").style.display="none";
+document.getElementById("giftText").style.display="none";
+document.getElementById("message").style.display="block";
+startConfetti();
+}
+
+/* Confetti */
+
+const canvas=document.getElementById("confetti");
+const ctx=canvas.getContext("2d");
+
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let confetti=[];
+
+for(let i=0;i<200;i++){
+confetti.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*6+2,
+color:"hsl("+Math.random()*360+",100%,50%)"
+});
+}
+
+function draw(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+confetti.forEach(c=>{
+ctx.fillStyle=c.color;
+ctx.fillRect(c.x,c.y,c.r,c.r);
+c.y+=2;
+
+if(c.y>canvas.height){
+c.y=0;
+}
+});
+
+requestAnimationFrame(draw);
+}
+
+function startConfetti(){
+draw();
+}
+
+</script>
+
+</body>
+</html>
